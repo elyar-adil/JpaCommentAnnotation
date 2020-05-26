@@ -29,8 +29,8 @@ public class CommentIntegrator implements Integrator {
     /**
      * Perform comment integration.
      *
-     * @param metadata The "compiled" representation of the mapping information
-     * @param sessionFactory The session factory being created
+     * @param metadata        The "compiled" representation of the mapping information
+     * @param sessionFactory  The session factory being created
      * @param serviceRegistry The session factory's service registry
      */
     @Override
@@ -41,7 +41,7 @@ public class CommentIntegrator implements Integrator {
     /**
      * Not used.
      *
-     * @param sessionFactoryImplementor The session factory being closed.
+     * @param sessionFactoryImplementor     The session factory being closed.
      * @param sessionFactoryServiceRegistry That session factory's service registry
      */
     @Override
@@ -89,24 +89,22 @@ public class CommentIntegrator implements Integrator {
      * Process @{code comment} annotation of field.
      *
      * @param persistentClass Hibernate {@code PersistentClass}
-     * @param name name of field
+     * @param columnName            name of field
      */
-    private void fieldComment(PersistentClass persistentClass, String name) {
+    private void fieldComment(PersistentClass persistentClass, String columnName) {
         try {
-            Field field = persistentClass.getMappedClass().getDeclaredField(name);
+            Field field = persistentClass.getMappedClass().getDeclaredField(columnName);
             if (field.isAnnotationPresent(Comment.class)) {
-                String _name = name;
-                if (field.isAnnotationPresent(Column.class)) {
-                    _name = field.getAnnotation(Column.class).name();
-                    if ("".equals(_name))
-                        _name = name;
+                String columnAnnotationName = field.getAnnotation(Column.class).name().trim();
+                if (!columnAnnotationName.isEmpty()) {
+                    columnName = columnAnnotationName;
                 }
                 String comment = field.getAnnotation(Comment.class).value();
                 //noinspection unchecked
                 Iterator<org.hibernate.mapping.Column> columnIterator = persistentClass.getTable().getColumnIterator();
                 while (columnIterator.hasNext()) {
                     org.hibernate.mapping.Column column = columnIterator.next();
-                    if (_name.equalsIgnoreCase(column.getName())) {
+                    if (columnName.equalsIgnoreCase(column.getName())) {
                         column.setComment(comment);
                         break;
                     }

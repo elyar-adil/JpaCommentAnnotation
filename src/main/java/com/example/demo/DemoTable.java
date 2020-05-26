@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.comment.Comment;
+import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,19 +9,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@Data
+@Table
 @Entity
-@Comment("Demo table comment")
-@Table(name = "demo_table")
+@Comment("Table comment")
 public class DemoTable {
-
     @Id
     @GeneratedValue
-    @Comment("ID comment")
-    @Column(name = "id")
+    @Column
+    @Comment("Identifier comment")
     private Integer id;
 
-    @Comment("Value comment")
-    @Column(name = "value")
-    private String value;
+    @Column
+    @Comment("Field comment")
+    private String field;
 
 }
