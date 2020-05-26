@@ -95,9 +95,11 @@ public class CommentIntegrator implements Integrator {
         try {
             Field field = persistentClass.getMappedClass().getDeclaredField(columnName);
             if (field.isAnnotationPresent(Comment.class)) {
-                String columnAnnotationName = field.getAnnotation(Column.class).name().trim();
-                if (!columnAnnotationName.isEmpty()) {
-                    columnName = columnAnnotationName;
+                if (field.isAnnotationPresent(Column.class)) {
+                    String annotationName = field.getAnnotation(Column.class).name().trim();
+                    if (!annotationName.isEmpty()) {
+                        columnName = annotationName;
+                    }
                 }
                 String comment = field.getAnnotation(Comment.class).value();
                 //noinspection unchecked
@@ -110,7 +112,6 @@ public class CommentIntegrator implements Integrator {
                     }
                 }
             }
-
         } catch (NoSuchFieldException | SecurityException ignored) {
         }
     }
