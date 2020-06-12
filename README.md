@@ -15,6 +15,7 @@ public class HibernateConfig implements HibernatePropertiesCustomizer {
 ```
 Code sample:
 ```java
+@Data
 @Entity
 @Comment("Demo table comment")
 @Table(name = "demo_table")
