@@ -106,7 +106,7 @@ public class CommentIntegrator implements Integrator {
                 Iterator<org.hibernate.mapping.Column> columnIterator = persistentClass.getTable().getColumnIterator();
                 while (columnIterator.hasNext()) {
                     org.hibernate.mapping.Column column = columnIterator.next();
-                    if (columnName.equalsIgnoreCase(column.getName())) {
+                    if (columnName.equalsIgnoreCase(column.getName().replace("_", ""))) {
                         column.setComment(comment);
                         break;
                     }
