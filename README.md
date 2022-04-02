@@ -1,4 +1,5 @@
 # JpaCommentAnnotation
+
 Comment annotation support for JPA DDL generation.
 
 To setup the integrator, add this config class:
